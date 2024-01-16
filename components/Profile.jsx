@@ -16,11 +16,11 @@ const Profile = ({ name, desc, prompts, handleEdit, handleDelete }) => {
           <PromptCard
             key={prompt._id}
             prompt={prompt}
-            handleEdit={handleEdit}
-            handleDelete={handleDelete}
+            handleEdit={() => handleEdit && handleEdit(prompt)}
+            handleDelete={() => handleDelete && handleDelete(prompt)}
           />
         ))}
-      </div>
+      </div>  
 
     </section>
   )

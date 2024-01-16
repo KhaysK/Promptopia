@@ -7,8 +7,8 @@ import { useRouter } from 'next/navigation';
 import Profile from '@components/Profile';
 
 const ProfilePage = () => {
-    const {data: session} = useSession();
-
+    const { data: session } = useSession();
+    const router = useRouter();
     const [prompts, setPrompts] = useState([]);
 
     useEffect(() => {
@@ -19,21 +19,37 @@ const ProfilePage = () => {
             setPrompts(data);
         }
 
-        if(session?.user.id) fetchPrompts();
-    }, [])
+        if (session?.user.id) fetchPrompts();
+    }, [session?.user.id])
 
-    const handleEdit = () => {
+    const handleEdit = (post) => {
+        router.push(`/update-prompt?id=${post._id}`);
+    };
 
-    }
+    const handleDelete = async (post) => {
+        const hasConfirmed = confirm('Are you sure you want to delete this prompt?');
 
-    const handleDelete = async () => {
-
+        if (hasConfirmed) {
+            try {
+                await fetch(`/api/prompt/${post._id.toString()}`, {
+                    method: 'DELETE'
+                })
+    
+                const filteredPosts = prompts.filter((p) =>
+                    p._id !== post._id
+                );
+    
+                setPrompts(filteredPosts);
+            } catch (error) {
+                console.log('Error in prompt delete: ', error);
+            }
+        }
     }
 
     return (
         <Profile
             name='My'
-            desc='Welcome to your peronalized profile page'
+            desc='Welcome to your peronalized profile page. Share your exceptional prompts and inspire others with the power of your imagination'
             prompts={prompts}
             handleEdit={handleEdit}
             handleDelete={handleDelete}

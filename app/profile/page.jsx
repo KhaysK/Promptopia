@@ -9,17 +9,17 @@ import Profile from '@components/Profile';
 const ProfilePage = () => {
     const { data: session } = useSession();
     const router = useRouter();
-    const [prompts, setPrompts] = useState([]);
+    const [posts, setPosts] = useState([]);
 
     useEffect(() => {
-        const fetchPrompts = async () => {
+        const fetchPosts = async () => {
             const response = await fetch(`/api/users/${session?.user.id}/prompts`);
             const data = await response.json();
 
-            setPrompts(data);
+            setPosts(data);
         }
 
-        if (session?.user.id) fetchPrompts();
+        if (session?.user.id) fetchPosts();
     }, [session?.user.id])
 
     const handleEdit = (post) => {
@@ -33,13 +33,13 @@ const ProfilePage = () => {
             try {
                 await fetch(`/api/prompt/${post._id.toString()}`, {
                     method: 'DELETE'
-                })
+                });
     
                 const filteredPosts = prompts.filter((p) =>
                     p._id !== post._id
                 );
-    
-                setPrompts(filteredPosts);
+                
+                setPosts(filteredPosts);
             } catch (error) {
                 console.log('Error in prompt delete: ', error);
             }
@@ -50,7 +50,7 @@ const ProfilePage = () => {
         <Profile
             name='My'
             desc='Welcome to your peronalized profile page. Share your exceptional prompts and inspire others with the power of your imagination'
-            prompts={prompts}
+            posts={posts}
             handleEdit={handleEdit}
             handleDelete={handleDelete}
         />

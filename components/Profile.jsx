@@ -1,6 +1,6 @@
 import PromptCard from "@components/PromptCard";
 
-const Profile = ({ name, desc, prompts, handleEdit, handleDelete }) => {
+const Profile = ({ name, desc, posts, handleEdit, handleDelete }) => {
   return (
     <section className='w-full'>
       <h1 className='head_text text-left'>
@@ -12,12 +12,12 @@ const Profile = ({ name, desc, prompts, handleEdit, handleDelete }) => {
       <p className='desc text-left'>{desc}</p>
 
       <div className='mt-10 prompt_layout'>
-        {prompts.map((prompt) => (
+        {posts.map((post) => (
           <PromptCard
-            key={prompt._id}
-            prompt={prompt}
-            handleEdit={() => handleEdit && handleEdit(prompt)}
-            handleDelete={() => handleDelete && handleDelete(prompt)}
+            key={post._id}
+            post={post}
+            handleEdit={() => handleEdit && handleEdit(post)}
+            handleDelete={() => handleDelete && handleDelete(post)}
           />
         ))}
       </div>  

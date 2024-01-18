@@ -4,11 +4,13 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { useSession } from 'next-auth/react';
 import { usePathname } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 const PromptCard = ({ post, handleTagClick, handleEdit, handleDelete }) => {
   const [copiedData, setCopiedData] = useState('');
-  const {data: session} = useSession();
+  const { data: session } = useSession();
   const pathName = usePathname();
+  const router = useRouter();
 
   const handleCopy = () => {
     setCopiedData(post.prompt);
@@ -19,7 +21,14 @@ const PromptCard = ({ post, handleTagClick, handleEdit, handleDelete }) => {
   return (
     <div className='prompt_card'>
       <div className='flex justify-between items-start gap-5'>
-        <div className='flex-1 flex justify-start items-center gap-3 cursor-pointer'>
+        <div
+          className='flex-1 flex justify-start items-center gap-3 cursor-pointer'
+          onClick={() => {
+            if (session?.user.id === post.creator._id)
+              return router.push('/profile');
+            return router.push(`/profile/${post.creator._id}`);
+          }}
+        >
           <Image
             src={post.creator.image}
             alt='user_image'
@@ -59,7 +68,7 @@ const PromptCard = ({ post, handleTagClick, handleEdit, handleDelete }) => {
         {post.tag}
       </p>
       {session?.user.id === post.creator._id &&
-        pathName ==='/profile' && (
+        pathName === '/profile' && (
           <div className='mt-5 flex-center gap-4 border-t border-gray-100 pt-3'>
             <p
               className='font-inter text-sm green-gradient cursor-pointer'

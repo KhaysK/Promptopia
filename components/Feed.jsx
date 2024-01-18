@@ -40,9 +40,12 @@ const Feed = () => {
   }, []);
 
   useEffect(() => {
+    const lowerSearchText = searchText.trim().toLowerCase();
     const filtered = posts.filter((post) => {
-      return post.prompt.includes(searchText) || post.tag.includes(searchText) ||
-      post.creator.username.includes(searchText) || post.creator.email.includes(searchText)
+      return post.prompt.toLowerCase().includes(lowerSearchText) || 
+      post.tag.toLowerCase().includes(lowerSearchText) ||
+      post.creator.username.toLowerCase().includes(lowerSearchText) || 
+      post.creator.email.toLowerCase().includes(lowerSearchText)
     });
 
     setFilteredPosts(filtered);

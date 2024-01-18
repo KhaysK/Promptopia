@@ -13,7 +13,10 @@ const ProfilePage = () => {
 
     useEffect(() => {
         const fetchPosts = async () => {
-            const response = await fetch(`/api/users/${session?.user.id}/prompts`);
+            const response = await fetch(
+                `/api/users/${session?.user.id}/prompts`,
+                { cache: 'no-store' }
+            );
             const data = await response.json();
 
             setPosts(data);
@@ -34,11 +37,11 @@ const ProfilePage = () => {
                 await fetch(`/api/prompt/${post._id.toString()}`, {
                     method: 'DELETE'
                 });
-    
+
                 const filteredPosts = prompts.filter((p) =>
                     p._id !== post._id
                 );
-                
+
                 setPosts(filteredPosts);
             } catch (error) {
                 console.log('Error in prompt delete: ', error);

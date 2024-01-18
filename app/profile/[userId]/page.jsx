@@ -9,7 +9,10 @@ const ProfilePage = ({ params }) => {
 
     useEffect(() => {
         const fetchPosts = async () => {
-            const response = await fetch(`/api/users/${params?.userId}/prompts`);
+            const response = await fetch(
+                `/api/users/${params?.userId}/prompts`,
+                { cache: 'no-store' }
+            );
             const data = await response.json();
 
             setPosts(data);

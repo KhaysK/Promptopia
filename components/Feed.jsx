@@ -29,7 +29,10 @@ const Feed = () => {
 
   useEffect(() => {
     const fetchPosts = async () => {
-      const response = await fetch('/api/prompt');
+      const response = await fetch(
+        '/api/prompt',
+        { cache: 'no-store' }
+      );
       const data = await response.json();
 
       setPosts(data);
@@ -42,10 +45,10 @@ const Feed = () => {
   useEffect(() => {
     const lowerSearchText = searchText.trim().toLowerCase();
     const filtered = posts.filter((post) => {
-      return post.prompt.toLowerCase().includes(lowerSearchText) || 
-      post.tag.toLowerCase().includes(lowerSearchText) ||
-      post.creator.username.toLowerCase().includes(lowerSearchText) || 
-      post.creator.email.toLowerCase().includes(lowerSearchText)
+      return post.prompt.toLowerCase().includes(lowerSearchText) ||
+        post.tag.toLowerCase().includes(lowerSearchText) ||
+        post.creator.username.toLowerCase().includes(lowerSearchText) ||
+        post.creator.email.toLowerCase().includes(lowerSearchText)
     });
 
     setFilteredPosts(filtered);
@@ -53,7 +56,10 @@ const Feed = () => {
 
   return (
     <section className='feed'>
-      <form className='relative w-full flex-center'>
+      <form 
+        className='relative w-full flex-center'
+        onSubmit={(e) => {e.preventDefault()}}
+      >
         <input
           type='text'
           placeholder='Search for a tag or a username'

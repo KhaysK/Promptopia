@@ -38,7 +38,7 @@ const ProfilePage = () => {
                     method: 'DELETE'
                 });
 
-                const filteredPosts = prompts.filter((p) =>
+                const filteredPosts = posts.filter((p) =>
                     p._id !== post._id
                 );
 

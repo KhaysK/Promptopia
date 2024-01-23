@@ -27,18 +27,22 @@ const Feed = () => {
     setSearchText(e.target.value);
   }
 
-  useEffect(() => {
-    const fetchPosts = async () => {
-      const response = await fetch(
-        '/api/prompt',
-        { cache: 'no-store' }
-      );
+  const fetchPosts = async () => {
+    try {
+      console.log('Trying to fetch posts: ');
+      const response = await fetch('/api/prompt', { cache: 'no-store' });
       const data = await response.json();
-
+      
+      console.log('Fetched posts: ', data);
       setPosts(data);
       setFilteredPosts(data);
+    } catch (error) {
+      console.log('Front-end error while post fetching: ', error);
     }
 
+  }
+
+  useEffect(() => {
     fetchPosts();
   }, []);
 
@@ -56,9 +60,9 @@ const Feed = () => {
 
   return (
     <section className='feed'>
-      <form 
+      <form
         className='relative w-full flex-center'
-        onSubmit={(e) => {e.preventDefault()}}
+        onSubmit={(e) => { e.preventDefault() }}
       >
         <input
           type='text'

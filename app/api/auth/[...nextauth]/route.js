@@ -38,9 +38,9 @@ const handler = NextAuth({
                     })
                 }
 
-                return true;
+                return new Response('Successfully Sign In: ', { status: 200 });
             } catch (error) {
-                console.log('Sign In error: ', error)
+                return new Response(`Sign In error: ${error}`, { status: 500 });
             }
         }
     },

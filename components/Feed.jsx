@@ -65,7 +65,7 @@ const Feed = () => {
         onSubmit={(e) => { e.preventDefault() }}
       >
         <input
-          type='text'
+          type='search'
           placeholder='Search for a tag or a username'
           value={searchText}
           onChange={handleSearchChange}

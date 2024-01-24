@@ -59,4 +59,4 @@ jobs:
           key: ${{ secrets.SERVER_SSH_PRYVATE_KEY }}
           script: |
             cd ~/promtopia/ && docker-compose pull && \
-            docker-compose up -d
+            docker-compose up -d && docker system prune -af
